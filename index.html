@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .question-container {
+            display: none;
+            width: 50%; /* Adjust the width as needed */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 300px; /* Fixed height */
+            margin: 0 auto; /* Center horizontally */
+            position: relative;
+        }
+        .question-container button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="intro" class="question-container">
+    <h2>Welcome to the Survey!</h2>
+    <p>Click the button below to start.</p>
+    <button onclick="startSurvey()">Start</button>
+</div>
+
+<div id="question1" class="question-container">
+    <h2>Question 1</h2>
+    <p>How satisfied are you with our services?</p>
+    <input type="range" min="1" max="10" value="5" id="q1Input" oninput="updateTextInput(this.value, 'q1Value')">
+    <p id="q1Value">5</p>
+    <button onclick="nextQuestion()">Next</button>
+</div>
+
+<div id="question2" class="question-container">
+    <h2>Question 2</h2>
+    <p>On a scale from 1 to 5, how likely are you to recommend us to a friend?</p>
+    <input type="number" min="1" max="5" id="q2Input">
+    <button onclick="nextQuestion()">Next</button>
+</div>
+
+<div id="question3" class="question-container">
+    <h2>Question 3</h2>
+    <p>What is your preferred method of communication?</p>
+    <select id="q3Input">
+        <option value="email">Email</option>
+        <option value="phone">Phone</option>
+        <option value="mail">Mail</option>
+    </select>
+    <button onclick="nextQuestion()">Next</button>
+</div>
+
+<div id="question4" class="question-container">
+    <h2>Question 4</h2>
+    <p>Do you have any additional comments or suggestions?</p>
+    <textarea id="q4Input"></textarea>
+    <button onclick="nextQuestion()">Next</button>
+</div>
+
+<div id="question5" class="question-container">
+    <h2>Question 5</h2>
+    <p>Thank you for completing the survey!</p>
+    <p>Your feedback is valuable to us.</p>
+    <button onclick="restartSurvey()">Restart</button>
+</div>
+
+<script>
+    let currentQuestion = 0;
+    document.getElementById('intro').style.display = 'block';
+
+    function startSurvey() {
+        const introDiv = document.getElementById('intro');
+        introDiv.style.display = 'none';
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        const currentQuestionDiv = document.getElementById(`question${currentQuestion}`);
+        if (currentQuestionDiv) {
+            currentQuestionDiv.style.display = 'none';
+        }
+        currentQuestion++;
+
+        if (currentQuestion <= 5) {
+            const nextQuestionDiv = document.getElementById(`question${currentQuestion}`);
+            if (nextQuestionDiv) {
+                nextQuestionDiv.style.display = 'block';
+            }
+        } else {
+            // If there are no more questions, hide all questions and show a thank you message
+            document.querySelectorAll('.question-container').forEach(question => {
+                question.style.display = 'none';
+            });
+            document.getElementById('question5').style.display = 'block';
+            currentQuestion = 0; // Reset the question counter for future surveys
+        }
+    }
+
+    function updateTextInput(val, id) {
+        document.getElementById(id).innerText = val;
+    }
+
+    function restartSurvey() {
+        document.getElementById('question5').style.display = 'none';
+        currentQuestion = 0;
+        startSurvey();
+    }
+</script>
+
+</body>
+</html>
