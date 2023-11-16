@@ -51,6 +51,21 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .question-container .botones {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+
+        .question-container .botones button {
+            position: relative;
+            display: flex;
+            transform: translateX(0);
+            left: 0%;
+        }
     </style>
 </head>
 
@@ -65,47 +80,60 @@
     </div>
 
     <div id="question1" class="question-container">
-        <h2>Question 1</h2>
-        <p>How satisfied are you with our services?</p>
+        <h2>Pregunta 1</h2>
+        <p>¿Cuán satisfecho estás con la calidad del producto que compraste en ChangoOnline?</p>
         <input type="range" min="1" max="10" value="5" id="q1Input" oninput="updateTextInput(this.value, 'q1Value')">
         <p id="q1Value">5</p>
         <button onclick="nextQuestion()">Next</button>
     </div>
 
     <div id="question2" class="question-container">
-        <h2>Question 2</h2>
-        <p>On a scale from 1 to 5, how likely are you to recommend us to a friend?</p>
-        <input type="number" min="1" max="5" id="q2Input">
+        <h2>Pregunta 2</h2>
+        <p>¿El producto cumple con tus espectativas y lo anunciado en la descripcion?</p>
+        <input type="range" min="1" max="10" value="5" id="q1Input" oninput="updateTextInput(this.value, 'q1Value')">
+        <p id="q1Value">5</p>
         <button onclick="nextQuestion()">Next</button>
     </div>
 
     <div id="question3" class="question-container">
-        <h2>Question 3</h2>
-        <p>What is your preferred method of communication?</p>
-        <select id="q3Input">
-            <option value="email">Email</option>
-            <option value="phone">Phone</option>
-            <option value="mail">Mail</option>
-        </select>
+        <h2>Pregunta 3</h2>
+        <p>¿Cómo calificarías la rapidez y eficacia del proceso de entrega de tu producto en ChangoOnline?</p>
+        <input type="range" min="1" max="10" value="5" id="q1Input" oninput="updateTextInput(this.value, 'q1Value')">
+        <p id="q1Value">5</p>
         <button onclick="nextQuestion()">Next</button>
     </div>
 
     <div id="question4" class="question-container">
-        <h2>Question 4</h2>
-        <p>Do you have any additional comments or suggestions?</p>
-        <textarea id="q4Input"></textarea>
-        <button onclick="nextQuestion()">Next</button>
+        <h2>Pregunta 4</h2>
+        <p>Crees que quienes realizaron el trabajo se merecen un punto extra en su nota?</p>
+        <div class="botones">
+            <button class="respuesta" onclick="nextQuestion()">Si</button>
+            <button class="respuesta" onclick="flipButtons()">No</button>
+        </div>
     </div>
 
     <div id="question5" class="question-container">
-        <h2>Question 5</h2>
-        <p>Thank you for completing the survey!</p>
-        <p>Your feedback is valuable to us.</p>
-        <button onclick="nextQuestion()">Restart</button>
+        <h2>Pregunta 5</h2>
+        <p>Gracias por completar la encuesta y el punto extra!</p>
+        <p>¿Tienes alguna sugerencia?</p>
+        <button onclick="nextQuestion()">Enviar y reiniciar</button>
     </div>
 
 </div>
-
+<script>
+    function flipButtons() {
+      var contenedor = document.querySelector('.botones');
+      var listaHijos = contenedor.childNodes;
+      var arrayHijos = Array.prototype.slice.call(listaHijos);
+      arrayHijos.reverse();
+      while (contenedor.firstChild) {
+        contenedor.removeChild(contenedor.firstChild);
+      }
+      arrayHijos.forEach(function (hijo) {
+        contenedor.appendChild(hijo);
+      });
+    }
+  </script>
 <script>
     let currentQuestion = 0;
     document.getElementById('intro').style.display = 'block';
