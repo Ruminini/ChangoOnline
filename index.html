@@ -39,7 +39,7 @@
             position: relative;
         }
 
-        .question-container button {
+        button {
             position: absolute;
             bottom: 20px;
             left: 50%;
@@ -60,11 +60,32 @@
             display: flex;
         }
 
-        .question-container .botones button {
+        .respuesta {
             position: relative;
             display: flex;
             transform: translateX(0);
             left: 0%;
+            margin: 0 20px;
+            width: 55px;
+            text-align: center;
+            bottom: 0;
+        }
+        .respuesta.yes:hover {
+            background-color: green;
+        }
+        .respuesta.no:hover {
+            background-color: red;
+        }
+
+        textarea {
+            height: 80px;
+            width: 260px;
+            border-color: #3448ff86;
+            background-color: #303443;
+            color: #fff;
+            border-radius: 10px;
+            resize: none;
+            padding: 5px;
         }
     </style>
 </head>
@@ -76,7 +97,7 @@
     <div id="intro" class="question-container">
         <h2>Gracias por comprar en ChangoOnline!</h2>
         <p>Responde esta breve encuesta y recibe un cupon de descuento para tu proxima compra.</p>
-        <button onclick="startSurvey()">Start</button>
+        <button class="next" onclick="nextQuestion()">Start</button>
     </div>
 
     <div id="question1" class="question-container">
@@ -84,31 +105,31 @@
         <p>¿Cuán satisfecho estás con la calidad del producto que compraste en ChangoOnline?</p>
         <input type="range" min="1" max="10" value="5" id="q1Input" oninput="updateTextInput(this.value, 'q1Value')">
         <p id="q1Value">5</p>
-        <button onclick="nextQuestion()">Next</button>
+        <button class="next" onclick="nextQuestion()">Next</button>
     </div>
 
     <div id="question2" class="question-container">
         <h2>Pregunta 2</h2>
         <p>¿El producto cumple con tus espectativas y lo anunciado en la descripcion?</p>
-        <input type="range" min="1" max="10" value="5" id="q1Input" oninput="updateTextInput(this.value, 'q1Value')">
-        <p id="q1Value">5</p>
-        <button onclick="nextQuestion()">Next</button>
+        <input type="range" min="1" max="10" value="5" id="q1Input" oninput="updateTextInput(this.value, 'q2Value')">
+        <p id="q2Value">5</p>
+        <button class="next" onclick="nextQuestion()">Next</button>
     </div>
 
     <div id="question3" class="question-container">
         <h2>Pregunta 3</h2>
         <p>¿Cómo calificarías la rapidez y eficacia del proceso de entrega de tu producto en ChangoOnline?</p>
-        <input type="range" min="1" max="10" value="5" id="q1Input" oninput="updateTextInput(this.value, 'q1Value')">
-        <p id="q1Value">5</p>
-        <button onclick="nextQuestion()">Next</button>
+        <input type="range" min="1" max="10" value="5" id="q1Input" oninput="updateTextInput(this.value, 'q3Value')">
+        <p id="q3Value">5</p>
+        <button class="next" onclick="nextQuestion()">Next</button>
     </div>
 
     <div id="question4" class="question-container">
         <h2>Pregunta 4</h2>
         <p>Crees que quienes realizaron el trabajo se merecen un punto extra en su nota?</p>
         <div class="botones">
-            <button class="respuesta" onclick="nextQuestion()">Si</button>
-            <button class="respuesta" onclick="flipButtons()">No</button>
+            <button class="respuesta yes" onclick="nextQuestion()">Si</button>
+            <button class="respuesta no" onclick="flipButtons()">No</button>
         </div>
     </div>
 
@@ -116,55 +137,36 @@
         <h2>Pregunta 5</h2>
         <p>Gracias por completar la encuesta y el punto extra!</p>
         <p>¿Tienes alguna sugerencia?</p>
-        <button onclick="nextQuestion()">Enviar y reiniciar</button>
+        <textarea type="textarea" id="q5Input" placeholder="Escriba su sugerencia aqui..."></textarea>
+        <button class="next" onclick="nextQuestion()">Enviar</button>
+    </div>
+
+    <div id="end" class="question-container">
+        <h2>Gracias por responder la encuesta!</h2>
+        <p>Aqui tienes tu cupon para tu proxima compra:</p>
+        <h2>ENCUE10OFF</h2>
+        <button class="next" onclick="nextQuestion()">Reiniciar</button>
     </div>
 
 </div>
 <script>
-    function flipButtons() {
-      var contenedor = document.querySelector('.botones');
-      var listaHijos = contenedor.childNodes;
-      var arrayHijos = Array.prototype.slice.call(listaHijos);
-      arrayHijos.reverse();
-      while (contenedor.firstChild) {
-        contenedor.removeChild(contenedor.firstChild);
-      }
-      arrayHijos.forEach(function (hijo) {
-        contenedor.appendChild(hijo);
-      });
-    }
-  </script>
-<script>
-    let currentQuestion = 0;
+    let qID = 0;
     document.getElementById('intro').style.display = 'block';
 
-    function startSurvey() {
-        const introDiv = document.getElementById('intro');
-        introDiv.style.display = 'none';
-        nextQuestion();
-    }
-
     function nextQuestion() {
-        const currentQuestionDiv = document.getElementById(`question${currentQuestion}`);
-        if (currentQuestionDiv) {
-            currentQuestionDiv.style.display = 'none';
-        }
-        currentQuestion++;
-
-        if (currentQuestion <= 5) {
-            const nextQuestionDiv = document.getElementById(`question${currentQuestion}`);
-            if (nextQuestionDiv) {
-                nextQuestionDiv.style.display = 'block';
-            }
-        } else {
-            // If there are no more questions, hide all questions and show a thank you message
-            currentQuestion = 0;
-            document.getElementById('intro').style.display = 'block';
-        }
+        const questions = document.querySelectorAll('.question-container')
+        questions[qID].style.display = 'none';
+        qID+1 == questions.length ? qID = 0 : qID++;
+        questions[qID].style.display = 'block';
     }
 
     function updateTextInput(val, id) {
         document.getElementById(id).innerText = val;
+    }
+
+    function flipButtons() {
+      var contenedor = document.querySelector('.botones');
+      contenedor.appendChild(contenedor.removeChild(contenedor.firstElementChild));
     }
 </script>
 
