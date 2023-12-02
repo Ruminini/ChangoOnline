@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #303443;
+    color: #fff;
+}
+
+.banner {
+    width: min(800px, 80%);
+    position: absolute;
+    top: 0px;
+    filter: drop-shadow( 0 0 5px #495bff86);
+}
+
+#survey-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.question-container {
+    display: none;
+    width: 300px;
+    padding: 20px;
+    background-color: #000000b5;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #3448ff86;
+    height: 300px;
+    margin: 0 auto;
+    position: relative;
+}
+
+button {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #3448ff86;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.question-container .botones {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+}
+
+.respuesta {
+    position: relative;
+    display: flex;
+    transform: translateX(0);
+    left: 0%;
+    margin: 0 20px;
+    width: 55px;
+    text-align: center;
+    bottom: 0;
+}
+.respuesta.yes:hover {
+    background-color: green;
+}
+.respuesta.no:hover {
+    background-color: red;
+}
+
+textarea {
+    height: 80px;
+    width: 260px;
+    border-color: #3448ff86;
+    background-color: #303443;
+    color: #fff;
+    border-radius: 10px;
+    resize: none;
+    padding: 5px;
+}
